@@ -1,0 +1,6 @@
+tensorflow==2.x.x
+numpy==1.x.x
+matplotlib==3.x.x
+pillow==9.x.x
+opencv-python==4.x.x
+tkinter
