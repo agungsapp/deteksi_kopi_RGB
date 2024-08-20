@@ -94,5 +94,5 @@ def process_dataset(dataset_path):
             print(f"\nTidak ada data valid untuk {grade}")
 
 if __name__ == "__main__":
-    dataset_path = r"D:\JOKI\PYTHON\KOPI\DATASET\test"  # Sesuaikan dengan path dataset Anda
+    dataset_path = r"./DATASET\test"  # Sesuaikan dengan path dataset Anda
     process_dataset(dataset_path)
