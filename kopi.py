@@ -11,7 +11,6 @@ class CoffeeQualityApp:
         self.root = root
         self.root.title("Coffee Quality Analyzer")
         
-        # Label and Buttons
         self.label = tk.Label(root, text="Load your training data:")
         self.label.pack(pady=10)
         
@@ -26,8 +25,7 @@ class CoffeeQualityApp:
         
         self.result_label = tk.Label(root, text="")
         self.result_label.pack(pady=10)
-        
-        # Variables for data and model
+
         self.data = None
         self.model = None
 
@@ -60,8 +58,7 @@ class CoffeeQualityApp:
     
     def predict_quality(self):
         if self.model is not None:
-            # In a real scenario, you would get input data from the user
-            # For simplicity, let's assume we use a sample from the data
+
             sample = self.data.drop("Quality", axis=1).iloc[0].values.reshape(1, -1)
             prediction = self.model.predict(sample)
             self.result_label.config(text=f"Predicted Quality: {prediction[0]}")

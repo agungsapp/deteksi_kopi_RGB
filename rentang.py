@@ -18,25 +18,21 @@ def get_coffee_color_range(image_path, show_result=False):
     mask = np.apply_along_axis(is_brown, 2, image_rgb)
     res = image_rgb * mask[:,:,np.newaxis]
 
-    # test kontur dan crop area
     contours, _ = cv2.findContours(mask.astype(np.uint8), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     if contours:
         c = max(contours, key=cv2.contourArea)
         x, y, w, h = cv2.boundingRect(c)
         cropped = res[y:y+h, x:x+w]
 
-        # filter warna coklat
         flattened = cropped.reshape(-1, 3)
         mask = np.apply_along_axis(is_brown, 1, flattened)
         filtered = flattened[mask]
 
         if filtered.size > 0:
-            # Hitung min dan max RGB
             min_rgb = np.percentile(filtered, 5, axis=0)
             max_rgb = np.percentile(filtered, 95, axis=0)
 
             if show_result:
-                # yoi crop area 
                 root = Tk()
                 root.title("Crop Area")
                 img = Image.fromarray(cropped)
@@ -45,7 +41,6 @@ def get_coffee_color_range(image_path, show_result=False):
                 panel.pack(side="bottom", fill="both", expand="yes")
                 root.mainloop()
 
-                #  visualisasi oke
                 plt.figure(figsize=(12, 4))
                 plt.subplot(131)
                 plt.imshow(image_rgb)
@@ -63,7 +58,8 @@ def get_coffee_color_range(image_path, show_result=False):
     return None, None
 
 def process_dataset(dataset_path):
-    grades = ['Dark', 'Light', 'Medium']
+    grades = ['A', 'B', 'C']
+    # grades = ['B', 'C', 'A']
     results = {grade: {'min': [], 'max': []} for grade in grades}
 
     for grade in grades:
@@ -82,7 +78,6 @@ def process_dataset(dataset_path):
                 results[grade]['min'].append(min_rgb)
                 results[grade]['max'].append(max_rgb)
 
-    # Hitung rata-rata rentang untuk setiap grade
     for grade in grades:
         if results[grade]['min'] and results[grade]['max']:
             avg_min = np.mean(results[grade]['min'], axis=0)
@@ -94,5 +89,5 @@ def process_dataset(dataset_path):
             print(f"\nTidak ada data valid untuk {grade}")
 
 if __name__ == "__main__":
-    dataset_path = r"./DATASET\test"  # Sesuaikan dengan path dataset Anda
+    dataset_path = r"./DATASET\test" 
     process_dataset(dataset_path)
